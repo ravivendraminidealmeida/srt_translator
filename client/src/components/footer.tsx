@@ -21,8 +21,8 @@ function Footer({ links }: FooterProps) {
                 {
                     links.map((link, index) => {
                         return (
-                            <div key={index} className="flex items-center gap-2">
-                                <a href={link.url}>
+                            <div key={index} className="flex items-center gap-2 cursor-pointer">
+                                <a href={link.url} className="">
                                     <Button variant="ghost">
                                         <span className="opacity-50">{link.icon}</span>
                                         <p className="text-md text-muted-foreground">

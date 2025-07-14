@@ -19,21 +19,21 @@ import { Upload } from 'lucide-react';
 function UploadSubtitles() {
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
-    if (acceptedFiles.length === 0) {
-        const files =
-            acceptedFiles.map(file => (
-                <Card key={file.path} className='p-6 w-full'>
-                    <div className='flex flex-col items-start content-center w-full gap-2'>
-                        <p className="text-left text-sm">{file.path}</p>
-                        <p>{Math.floor(file.size / 1024)} KB</p>
-                    </div>
-                </Card>
-            ));
-    } else { 
-        const files = 
+    // if (acceptedFiles.length === 0) {
+    //     const files =
+    //         acceptedFiles.map(file => (
+    //             <Card key={file.path} className='p-6 w-full'>
+    //                 <div className='flex flex-col items-start content-center w-full gap-2'>
+    //                     <p className="text-left text-sm">{file.path}</p>
+    //                     <p>{Math.floor(file.size / 1024)} KB</p>
+    //                 </div>
+    //             </Card>
+    //         ));
+    // } else { 
+    //     const files = 
 
 
-     }
+    //  }
 
     return (
         <div {...getRootProps()}>

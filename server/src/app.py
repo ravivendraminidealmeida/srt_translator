@@ -12,4 +12,4 @@ migrate = Migrate(app, db)
 
 @app.route('/')
 def home():
-    return Translation.query.all()
+    return "Lorem"

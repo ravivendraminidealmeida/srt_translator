@@ -10,6 +10,4 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 db.init_app(app)
 migrate = Migrate(app, db)
 
-@app.route('/')
-def home():
-    return "Lorem"
+import routes

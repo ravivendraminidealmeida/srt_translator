@@ -53,12 +53,27 @@ def login():
 
     user = User.query.filter_by(email = email).first()
 
+    if not user:
+        return (jsonify(error="Invalid credentials"), 401)
+
     if user.verify_password(pwd):
-        token = api_jwt.encode(
+
+        hours_to_expire = int(config.TOKEN_EXPIRATION_TIME_IN_HOURS)
+
+
+        token = jwt.encode(
             {
                 "username": user.username,
-                "expiration_time": datetime.now + timedelta(hours=1)
+                "expiration_time": datetime.isoformat(datetime.now() + timedelta(hours=hours_to_expire)) 
             },
             algorithm="HS256",
             key=config.SECRET_KEY
         )
+        return jsonify(
+            {
+                "token": token,
+                "expires_in": int(timedelta(hours=hours_to_expire).total_seconds())
+            }
+        )
+    
+    return (jsonify(error="Invalid credentials"), 401)

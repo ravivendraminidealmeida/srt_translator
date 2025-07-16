@@ -7,6 +7,7 @@ import config
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.DB_CONNECTION
+app.config["UPLOAD_FOLDER"] = config.UPLOAD_FOLDER
 
 
 db.init_app(app)

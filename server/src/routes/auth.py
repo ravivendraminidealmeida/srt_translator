@@ -64,6 +64,7 @@ def login():
         token = jwt.encode(
             {
                 "username": user.username,
+                "email": user.email,
                 "expiration_time": datetime.isoformat(datetime.now() + timedelta(hours=hours_to_expire)) 
             },
             algorithm="HS256",

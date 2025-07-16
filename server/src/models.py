@@ -20,7 +20,8 @@ class User(db.Model):
 
 class Translation(db.Model):
     __tablename__ = "translation"
-    id = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    filename = Column(String)
     download_link = Column(String)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)

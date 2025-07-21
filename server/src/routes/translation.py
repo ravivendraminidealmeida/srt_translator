@@ -5,21 +5,21 @@ import uuid
 
 from app import app
 from schemas import translations_schema, translation_schema
-from flask import request, flash, jsonify
+from flask import request, jsonify
 from werkzeug.utils import secure_filename
 from models import Translation, User
 from datetime import datetime
 from db import db
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity 
+from tasks import add_together
+from celery.result import AsyncResult
 
 ALLOWED_EXTENSIONS = ['srt']
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@jwt_required()
+           
 @app.route('/translation', methods=['GET'])
 def get_all_translations():
     user_id = get_jwt_identity()
@@ -28,7 +28,6 @@ def get_all_translations():
     return jsonify(
         data=result), 200
 
-@jwt_required
 @app.route('/translation/<id>', methods=['GET'])
 def get_translation(id : str):
     user_id = get_jwt_identity()
@@ -41,7 +40,6 @@ def get_translation(id : str):
 
     return jsonify(error="This translation belongs to another user"), 401
 
-@jwt_required()
 @app.route('/translation', methods=['POST'])
 def create_new_translation():
 

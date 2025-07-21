@@ -1,15 +1,19 @@
+import config
+import jwt
+
 from app import app
 from db import db
 from models import User
 from flask import request, abort, jsonify
 from werkzeug.exceptions import HTTPException
 from datetime import datetime, timedelta
-import config
-import jwt
+from flask_jwt_extended import create_access_token, verify_jwt_in_request
 
-@app.route('/auth/me', methods=['GET'])
-def get_current_user():
-    pass
+@app.before_request
+def auth_middleware():
+    print(request.endpoint)
+    if request.endpoint not in config.UNPROTECTED_ENDPOINTS:
+        verify_jwt_in_request()
 
 @app.route('/auth/signup', methods=['POST'])
 def signup():
@@ -53,27 +57,11 @@ def login():
 
     user = User.query.filter_by(email = email).first()
 
-    if not user:
-        return (jsonify(error="Invalid credentials"), 401)
-
     if user.verify_password(pwd):
-
-        hours_to_expire = int(config.TOKEN_EXPIRATION_TIME_IN_HOURS)
-
-
-        token = jwt.encode(
-            {
-                "username": user.username,
-                "email": user.email,
-                "expiration_time": datetime.isoformat(datetime.now() + timedelta(hours=hours_to_expire)) 
-            },
-            algorithm="HS256",
-            key=config.SECRET_KEY
-        )
+        access_token = create_access_token(identity=str(user.id))
         return jsonify(
             {
-                "token": token,
-                "expires_in": int(timedelta(hours=hours_to_expire).total_seconds())
+                "token": access_token,
             }
         )
     

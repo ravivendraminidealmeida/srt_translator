@@ -21,12 +21,14 @@ class User(db.Model):
 class Translation(db.Model):
     __tablename__ = "translation"
     id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
     filename = Column(String)
-    storage_ref = Column(String)
+    from_lang = Column(String)
+    to_lang = Column(String)
+
+    original_storage_ref = Column(String)
+    translated_storage_ref = Column(String)
     download_link = Column(String)
+
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
-    user_id = Column(Integer, ForeignKey("user.id"))
-    
-    
-    

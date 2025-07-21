@@ -22,3 +22,6 @@ CELERY_CONFIG = dict(
     task_ignore_result=True,
 )
 
+DEFAULT_FROM_LANG = 'en'
+DEFAULT_TO_LANG = 'pt'
+
